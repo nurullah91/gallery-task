@@ -1,5 +1,8 @@
 import { useState } from "react";
 import images from ""
+import Header from "./Header";
+import GalleryImage from "./GalleryImage";
+import ImageUpload from "./ImageUpload";
 const Gallery = () => {
 
     // thumbnail related states
@@ -7,7 +10,7 @@ const Gallery = () => {
     const [thumbnails, setThumbnails] = useState(images)
 
     // drugging states
-    const [drugging, setDrugging] = useState(false);
+    const [dragging, setDragging] = useState(false);
     const [draggedImage, setDraggedImage] = useState(null);
     const [draggedIndex, setDraggedIndex] = useState(null)
 
@@ -20,7 +23,7 @@ const Gallery = () => {
             const id = thumbnail.length + index + 1;
             const thumbnail = URL.createObjectURL(file);
 
-            return {id, thumbnail}
+            return { id, thumbnail }
         })
 
         setThumbnails([...thumbnails, ...newImage])
@@ -33,24 +36,72 @@ const Gallery = () => {
         // getting latest images
         const updatedImages = thumbnails.filter(
             (image) => !selectThumbnails.some((selected) => selected.id === image.id)
-          );
+        );
 
-          setThumbnails(updatedImages)
-          setSelectThumbnails([])
+        setThumbnails(updatedImages)
+        setSelectThumbnails([])
     }
+
+    // drug image handler
+    const handleDragStart = (image) => {
+        setDragging(true)
+        setDraggedImage(image);
+    }
+
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e?.target?.children[0]?.alt && setDraggedIndex(e?.target?.children)
+    }
+
+    const handleDrugDrop = (targetIndex) => {
+        setDragging(false);
+
+        if (draggedImage) {
+            const updatedImages = thumbnails.filter((image) => image.id !== draggedImage)
+
+            updatedImages.splice(targetIndex, 0, draggedImage);
+
+            setThumbnails(updatedImages);
+            setDraggedImage(null);
+        }
+    }
+
+
 
     return (
         <main className="min-h-screen w-screen flex flex-row items-center justify-center md:p-0 p-4">
             <div className="flex flex-col gap-y-2">
-                {/* todo */}
                 {/* call galleryHeader */}
+                <Header
+                    selectThumbnails={selectThumbnails}
+                    setSelectThumbnails={setSelectThumbnails}
+                    handleDeleteImage={handleDeleteImage}
+                ></Header>
 
                 <hr />
                 <section className="h-full w-full p-6">
                     <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 gap-6"
-                    // todo
-                    //   onDragOver={handleDragOver}
+                        onDragOver={handleDragOver}
                     >
+                        {thumbnails.map((image, index) => (<GalleryImage
+                            key={index}
+                            image={setDraggedImage}
+                            index={index}
+                            selectThumbnails={selectThumbnails}
+                            setSelectThumbnails={setSelectThumbnails}
+                            handleDragStart={handleDragStart}
+                            handleDrugDrop={handleDrugDrop}
+                            dragging={dragging}
+                            draggedIndex={draggedIndex}
+                        />))
+
+                        }
+
+                        {/* image upload component */}
+                        <ImageUpload
+                            handleUploadedImage={handleUploadedImage}
+                        />
 
                     </div>
                 </section>
