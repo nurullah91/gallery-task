@@ -3,6 +3,7 @@ import images from "./images"
 import Header from "./Header";
 import GalleryImage from "./GalleryImage";
 import ImageUpload from "./ImageUpload";
+import toast, { Toaster } from "react-hot-toast";
 const Gallery = () => {
 
     // thumbnail related states
@@ -18,7 +19,7 @@ const Gallery = () => {
     // handle New image upload functionality
     const handleUploadedImage = (e) => {
         const selectedFiles = e.target.files;
-        
+
         const newImage = Array.from(selectedFiles).map((file, index) => {
             const id = thumbnails.length + index + 1;
             const image = URL.createObjectURL(file);
@@ -27,7 +28,7 @@ const Gallery = () => {
         })
 
         setThumbnails([...thumbnails, ...newImage])
-        console.log(thumbnails);
+
     }
 
 
@@ -41,6 +42,7 @@ const Gallery = () => {
 
         setThumbnails(updatedImages)
         setSelectThumbnails([])
+        toast.error('Image deleted');
     }
 
     // drug image handler
@@ -73,6 +75,8 @@ const Gallery = () => {
     return (
         <main className="min-h-screen flex flex-row items-center justify-center md:p-0 p-4">
             <div className="flex flex-col gap-y-2">
+                {/* toast */}
+                <Toaster />
                 {/* call galleryHeader */}
                 <Header
                     selectThumbnails={selectThumbnails}
@@ -82,7 +86,7 @@ const Gallery = () => {
 
                 <hr />
                 <section className="h-full w-full p-6">
-                    <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 gap-6"
+                    <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-6 shadow-md rounded-md p-6"
                         onDragOver={handleDragOver}
                     >
                         {thumbnails.map((image, index) => (<GalleryImage
