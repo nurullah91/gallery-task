@@ -1,5 +1,5 @@
 import { useState } from "react";
-import images from ""
+import images from "./images"
 import Header from "./Header";
 import GalleryImage from "./GalleryImage";
 import ImageUpload from "./ImageUpload";
@@ -86,7 +86,7 @@ const Gallery = () => {
                     >
                         {thumbnails.map((image, index) => (<GalleryImage
                             key={index}
-                            image={setDraggedImage}
+                            image={image}
                             index={index}
                             selectThumbnails={selectThumbnails}
                             setSelectThumbnails={setSelectThumbnails}
