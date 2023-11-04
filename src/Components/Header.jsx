@@ -24,6 +24,7 @@ const Header = ({ selectThumbnails, setSelectThumbnails, handleDeleteImage }) =>
 
                 </h2>
 
+                {/* delete button for selected image */}
                 <button
                     className="text-red-600"
                     onClick={handleDeleteImage}

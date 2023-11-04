@@ -70,7 +70,7 @@ const Gallery = () => {
 
 
     return (
-        <main className="min-h-screen w-screen flex flex-row items-center justify-center md:p-0 p-4">
+        <main className="min-h-screen flex flex-row items-center justify-center md:p-0 p-4">
             <div className="flex flex-col gap-y-2">
                 {/* call galleryHeader */}
                 <Header
