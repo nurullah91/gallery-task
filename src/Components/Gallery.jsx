@@ -18,7 +18,7 @@ const Gallery = () => {
     // handle New image upload functionality
     const handleUploadedImage = (e) => {
         const selectedFiles = e.target.files;
-
+        
         const newImage = Array.from(selectedFiles).map((file, index) => {
             const id = thumbnail.length + index + 1;
             const thumbnail = URL.createObjectURL(file);
@@ -58,7 +58,7 @@ const Gallery = () => {
         setDragging(false);
 
         if (draggedImage) {
-            const updatedImages = thumbnails.filter((image) => image.id !== draggedImage)
+            const updatedImages = thumbnails.filter((image) => image.id !== draggedImage.id)
 
             updatedImages.splice(targetIndex, 0, draggedImage);
 
