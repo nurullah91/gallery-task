@@ -20,13 +20,14 @@ const Gallery = () => {
         const selectedFiles = e.target.files;
         
         const newImage = Array.from(selectedFiles).map((file, index) => {
-            const id = thumbnail.length + index + 1;
-            const thumbnail = URL.createObjectURL(file);
+            const id = thumbnails.length + index + 1;
+            const image = URL.createObjectURL(file);
 
-            return { id, thumbnail }
+            return { id, image }
         })
 
         setThumbnails([...thumbnails, ...newImage])
+        console.log(thumbnails);
     }
 
 
